@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>正则表达式</title>
+	<script type="text/javascript" src="js/common.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/common.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+	<header>
+		<h1>正则测试</h1>
+	</header>
+	<section>
+		<div class="con_name">在线正则表达式测试</div>
+		<div class="con_main clearfix">
+			<div class="con_m_l">
+				<div class="top_ta">
+					<textarea class="ta" id="in" placeholder="在此输入待匹配文本"></textarea>
+				</div>
+				<div class="operate_ta">
+					<form class="oper_form">
+						<div>
+							<label class="add_l">正则表达式</label>
+							<input id="add_in" class="add_in" type="text" name="" placeholder="在此输入正则表达式">
+							<a id="test_btn">测试匹配</a>
+						</div>
+					</form>
+				</div>
+				<div class="btm_ta">
+					<label>匹配结果：</label>
+					<textarea class="ta" id="out"></textarea>
+				</div>
+				<div class="operate_ta">
+					<form class="oper_form">
+						<div>
+							<label class="add_l">替换文本</label>
+							<input id="re_in" class="add_in" type="text" name="" placeholder="在此输入替换文本">
+							<a id="replace_btn">替换</a>
+						</div>
+					</form>
+				</div>
+				<div class="btm_ta">
+					<label>替换结果：</label>
+					<textarea class="ta" id="re_out"></textarea>
+				</div>
+			</div>
+			<div class="con_m_r">
+				<ul id="list_ul">
+					<li class="list_f">常用正则表达式</li>
+					<li><a title="<[^<>]+>" >匹配HTML标签</a></li>
+					<li><a title="\d+" >匹配数字</a></li>
+					<li><a title="[a-z]" >匹配字母</a></li>
+					<li><a title="[\u4e00-\u9fa5]" >匹配中文字符</a></li>
+					<li><a title="[^\x00-\xff]" >匹配双字节字符(包括中文)</a></li>
+					<li><a title="[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?" >匹配Email地址</a></li>
+					<li><a title="[a-zA-z]+://[^\s]*" >匹配网址URL</a></li>
+					<li><a title="\d{3}-\d{8}|\d{4}-\{7,8}" >匹配国内电话号码</a></li>
+					<li><a title="[1-9][0-9]{4,}" >匹配腾讯QQ号码</a></li>
+					<li><a title="[1-9]\d{5}(?!\d)" >匹配中国邮政编码</a></li>
+					<li><a title="^(\d{6})(\d{4})(\d{2})(\d{2})(\d{3})([0-9]|X)$" >匹配18位身份证号</a></li>
+					<li><a title="([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]{1}|[0-9]{1}[1-9][0-9]{2}|[1-9][0-9]{3})-(((0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01]))|((0[469]|11)-(0[1-9]|[12][0-9]|30))|(02-(0[1-9]|[1][0-9]|2[0-8])))" >匹配(年-月-日)日期</a></li>
+				</ul>
+			</div>
+		</div>
+	</section>
+	<footer>
+		<p><a href="https://github.com/Wiolem">wiolem</a></p>
+	</footer>
+</body>
+<script type="text/javascript">
+	var oUl = document.getElementById("list_ul");
+	//List Btn
+	delegation(oUl,"a","onclick",function(event,index){
+		switch(index){
+			case 0://HTML标签
+				getRes(this.title,this);
+				break;
+			case 1://数字
+				getRes(this.title,this);
+				break;
+			case 2://字母
+				getRes(this.title,this);
+				break;
+			case 3://中文字符
+				getRes(this.title,this);
+				break;
+			case 4://双字节
+				getRes(this.title,this);
+				break;
+			case 5://Email
+				getRes(this.title,this);
+				break;
+			case 6://URL
+				getRes(this.title,this);
+				break;
+			case 7://电话
+				getRes(this.title,this);
+				break;
+			case 8://QQ
+				getRes(this.title,this);
+				break;
+			case 9://邮编
+				getRes(this.title,this);
+				break;
+			case 10://身份证号
+				getRes(this.title,this);
+				break;
+			case 11://日期
+				getRes(this.title,this);
+				break;
+		}
+	});
+	//TestBtn
+	$("test_btn").onclick = function(){
+		var reg = "/" + $("add_in").value + "/g";
+		$("out").value = $("in").value.match(eval(reg));
+		if ($("out").value == "") {
+			$("out").value = "(没有匹配项)"
+		}
+	}
+	//ReplaceBtn
+	$("replace_btn").onclick = function(){
+		var reg = "/" + $("add_in").value + "/g";
+		var sRep = "";
+		sRep = $("re_in").value;
+		$("re_out").value = $("in").value.replace(eval(reg),sRep);
+	}
+
+	/**
+	 * getRes
+	 * @param  {Reg} reg
+	 * @param  {Object} obj
+	 * @return {undfined}    
+	 */
+	function getRes(reg,obj){
+		var sReg = "/" + reg + "/g";
+		$("add_in").value = obj.title;
+		$("out").value = $("in").value.match(eval(sReg));
+	}
+	/**
+	 * $
+	 * @param  {Element} dom
+	 * @return {Object}    
+	 */
+	function $(dom){
+		return document.getElementById(dom);
+	}
+</script>
+</html>
